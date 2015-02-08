@@ -1,0 +1,30 @@
+#!/usr/bin/env node
+//# vi: ft=javascript
+
+var fs = require('fs');
+
+var handlebars = require('handlebars');
+var express = require('express');
+
+var app = express();
+var staticHandler = express['static'].bind(express);
+
+app.get('/', function index(req, res) {
+  var indexFile = __dirname + '/../assets/index.html';
+
+  function compileServe(err, text) {
+    if (err) {
+      res.writeHead(500, {'Content-Type': 'text/plain'}, err);
+      return;
+    }
+    var tmpl = handlebars.compile(text);
+    res.send(tmpl());
+  }
+
+  fs.readFile(indexFile, {encoding: 'utf8'}, compileServe);
+});
+
+app.use('/vendor', staticHandler('vendor'));
+app.use('/static', staticHandler('static'));
+
+app.listen(9900);

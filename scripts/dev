@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+
+dir=$(dirname $0)
+source $dir/common
+
+docker run \
+    --volume $(abspath $dir/..):/opt/phantom-talk \
+    --publish 9900:9900 \
+    phantom-talk \
+    run dev

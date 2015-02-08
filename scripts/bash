@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+
+dir=$(dirname $0)
+source $dir/common
+
+docker run \
+    --interactive \
+    --tty \
+    --volume $(abspath $dir/..):/opt/phantom-talk \
+    --publish=9876:9876 \
+    --entrypoint /bin/bash \
+    phantom-talk
