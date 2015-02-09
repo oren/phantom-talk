@@ -1,4 +1,8 @@
-define(['marionette', 'jquery'], function AppDefine(Marionette, $) {
+define([
+  'marionette',
+  'jquery',
+  'template'
+], function AppDefine(Marionette, $, tmpl) {
   'use strict';
 
   var Application = Marionette.Application;
@@ -15,7 +19,7 @@ define(['marionette', 'jquery'], function AppDefine(Marionette, $) {
     if (options.el == null) {
       options.el = 'body';
     }
-    $(options.el).text('started');
+    $(options.el).html(tmpl({title: 'started'}));
   };
 
   return App;

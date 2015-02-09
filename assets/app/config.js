@@ -16,11 +16,13 @@
     return {
       paths: {
         backbone: prefix + '/vendor/backbone/backbone',
+        handlebars: prefix + '/vendor/handlebars/handlebars.runtime',
         jquery: prefix + '/vendor/jquery/dist/jquery',
         marionette: prefix + '/vendor/marionette/lib/backbone.marionette',
         underscore: prefix + '/vendor/underscore/underscore'
       },
       shim: {
+        handlebars: {exports: 'Handlebars'},
         underscore: {exports: '_'}
       }
     };

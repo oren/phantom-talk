@@ -1,4 +1,5 @@
 var _ = require('lodash');
+var glob = require('glob');
 var requireConfig = require('./assets/app/config');
 
 function buildRequireConfig(options) {
@@ -22,6 +23,7 @@ module.exports = function (grunt) {
   grunt.loadNpmTasks('grunt-contrib-clean');
   grunt.loadNpmTasks('grunt-contrib-compass');
   grunt.loadNpmTasks('grunt-contrib-copy');
+  grunt.loadNpmTasks('grunt-contrib-handlebars');
   grunt.loadNpmTasks('grunt-contrib-jshint');
   grunt.loadNpmTasks('grunt-contrib-requirejs');
   grunt.loadNpmTasks('grunt-contrib-watch');
@@ -35,6 +37,22 @@ module.exports = function (grunt) {
           generateSourceMaps: true,
           optimize: 'none'
         })
+      }
+    },
+
+    handlebars: {
+      options: {namespace: false, amd: true},
+      templates: {
+        files: (function () {
+          var templates = glob.sync('./assets/**/*.hbs');
+          var result = templates.reduce(function destFiles(memo, source) {
+            var newName = source.replace(/\.hbs$/, '.js')
+              .replace('./assets', './static');
+            memo[newName] = source;
+            return memo;
+          }, {});
+          return result;
+        }())
       }
     },
 
@@ -86,6 +104,7 @@ module.exports = function (grunt) {
   grunt.registerTask('default', [
     'clean',
     'compass',
+    'handlebars',
     'copy',
     'requirejs',
     'jshint'

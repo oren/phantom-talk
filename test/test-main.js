@@ -12,7 +12,7 @@
     var config = mkConfig('/base');
 
     config.deps = tests;
-    config.baseUrl = '/base/static';
+    config.baseUrl = '/base/static/app';
     config.callback = root.__karma__.start;
 
     require.config(config);

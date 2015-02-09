@@ -1,10 +1,10 @@
-define(['app/app'], function (App) {
+define(['app'], function (App) {
   describe('App', function () {
-    it('→ exits`', function () {
+    it('→ exits', function () {
       expect(new App()).not.toBeUndefined();
     });
 
-    describe('→ start()`', function () {
+    describe('→ start()', function () {
       it('→ can be called', function () {
         expect(function noError() {
           (new App()).start();

@@ -17,11 +17,12 @@
   "nonew": true,
   "notypeof": true,
   "quotmark": true,
-  "singleGroups": true,
+  "singleGroups": false,
   "undef": true,
   "unused": true,
 
   "eqnull": true,
+  "debug": true,
 
   "maxcomplexity": 4,
   "maxdepth": 4,
