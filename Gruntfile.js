@@ -74,6 +74,7 @@ module.exports = function (grunt) {
         options: {
           sassDir: 'assets/style',
           cssDir: 'static/style',
+          cacheDir: 'tmp/sass-cache',
           importPath: ['vendor/normalize-scss']
         }
       }
