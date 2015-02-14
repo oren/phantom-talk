@@ -15,6 +15,7 @@ module.exports = function(config) {
       {pattern: 'test/**/!(test-main).js', included: false},
       {pattern: 'static/**/!(config).js', included: false},
       {pattern: 'static/**/*.map', included: false},
+      {pattern: 'data/**/*.json', included: false},
       'static/style/main.css',
       'static/app/config.js',
       'test/test-main.js'

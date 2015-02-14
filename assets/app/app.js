@@ -1,7 +1,8 @@
 define([
+  'underscore',
   'marionette',
   'core/layout/module'
-], function AppDefine(Marionette, Layout) {
+], function AppDefine(_, Marionette, Layout) {
   'use strict';
 
   var Application = Marionette.Application;
@@ -14,10 +15,17 @@ define([
   }
 
   App.prototype = new Application();
+  _.extend(App.prototype, {
+    Layout: Layout,
 
-  App.prototype.initialize = function initialize() {
-    this.module('layout', Layout);
-  };
+    initialize: function initialize(config) {
+      config = config || {};
+      if (config.Layout) {
+        this.Layout = config.Layout;
+      }
+      this.module('layout', this.Layout);
+    }
+  });
 
   return App;
 });

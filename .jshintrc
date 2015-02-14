@@ -32,6 +32,8 @@
 
   "indent": 2,
   "globals": {
+    "afterEach": true,
+    "beforeEach": true,
     "define": true,
     "describe": true,
     "expect": true,

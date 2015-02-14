@@ -1,4 +1,4 @@
-define(['app'], function (App) {
+define(['marionette', 'app'], function (Marionette, App) {
   describe('App', function () {
     it('→ exits', function () {
       expect(new App()).not.toBeUndefined();
@@ -7,7 +7,8 @@ define(['app'], function (App) {
     describe('→ start()', function () {
       it('→ can be called', function () {
         expect(function noError() {
-          (new App()).start();
+          var app = new App({Layout: Marionette.Module});
+          app.start();
         }).not.toThrow();
       });
     });

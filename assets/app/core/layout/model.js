@@ -1,4 +1,4 @@
-define(['backbone'], function LayoutModelDefine(Backbone) {
+define(['underscore', 'backbone'], function LayoutModelDefine(_, Backbone) {
   'use strict';
 
   var Model = Backbone.Model;
@@ -6,13 +6,17 @@ define(['backbone'], function LayoutModelDefine(Backbone) {
   function LayoutModel() {
     Model.apply(this, arguments);
   }
+
   LayoutModel.prototype = new Model();
 
-  LayoutModel.prototype.defaults = function defaults() {
-    return {
-      title: 'some title'
-    };
-  };
+  _.extend(LayoutModel.prototype, {
+    url: '/data/vendor.json',
+    defaults: function defaults() {
+      return {
+        title: ''
+      };
+    }
+  });
 
   return LayoutModel;
 });

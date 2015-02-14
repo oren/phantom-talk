@@ -24,6 +24,7 @@ app.get('/', function index(req, res) {
   fs.readFile(indexFile, {encoding: 'utf8'}, compileServe);
 });
 
+app.use('/data', staticHandler('data'));
 app.use('/vendor', staticHandler('vendor'));
 app.use('/static', staticHandler('static'));
 

@@ -18,6 +18,7 @@ define([
       this.model = new this.Model(config.model);
       config.view.model = this.model;
       this.view = new this.View(config.view);
+      this.model.fetch();
       this.view.render();
     }
   });

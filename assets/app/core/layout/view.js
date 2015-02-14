@@ -5,7 +5,11 @@ define([
   'use strict';
 
   var CoreLayout = Marionette.LayoutView.extend({
-    template: template
+    template: template,
+
+    modelEvents: {
+      change: 'render'
+    }
   });
 
   return CoreLayout;
