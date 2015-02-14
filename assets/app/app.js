@@ -1,25 +1,22 @@
 define([
   'marionette',
-  'jquery',
-  'template'
-], function AppDefine(Marionette, $, tmpl) {
+  'core/layout/module'
+], function AppDefine(Marionette, Layout) {
   'use strict';
 
   var Application = Marionette.Application;
 
-  function App() {
-    Application.apply(this, arguments);
-  }
-  App.prototype = new Application();
-
-  App.prototype.onStart = function onStart(options) {
+  function App(options) {
     if (options == null) {
       options = {};
     }
-    if (options.el == null) {
-      options.el = 'body';
-    }
-    $(options.el).html(tmpl({title: 'started'}));
+    Application.apply(this, arguments);
+  }
+
+  App.prototype = new Application();
+
+  App.prototype.initialize = function initialize() {
+    this.module('layout', Layout);
   };
 
   return App;

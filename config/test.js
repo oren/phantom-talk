@@ -15,8 +15,9 @@ module.exports = function(config) {
       {pattern: 'test/**/!(test-main).js', included: false},
       {pattern: 'static/**/!(config).js', included: false},
       {pattern: 'static/**/*.map', included: false},
-      {pattern: 'static/app/config.js', included: true},
-      {pattern: 'test/test-main.js', included: true}
+      'static/style/main.css',
+      'static/app/config.js',
+      'test/test-main.js'
     ],
 
     // list of files to exclude

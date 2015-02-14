@@ -11,5 +11,11 @@ define(['app'], function (App) {
         }).not.toThrow();
       });
     });
+
+    describe('→ has layout', function () {
+      it('→ exits', function () {
+        expect(new App().layout).not.toBeUndefined();
+      });
+    });
   });
 });
