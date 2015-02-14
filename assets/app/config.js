@@ -16,6 +16,7 @@
     return {
       paths: {
         backbone: prefix + '/vendor/backbone/backbone',
+        commonmark: prefix + '/vendor/commonmark/dist/commonmark',
         handlebars: prefix + '/vendor/handlebars/handlebars.runtime',
         jquery: prefix + '/vendor/jquery/dist/jquery',
         marionette: prefix + '/vendor/marionette/lib/backbone.marionette',
