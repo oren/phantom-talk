@@ -66,7 +66,8 @@ module.exports = function (grunt) {
     },
 
     clean: {
-      app: './static/app'
+      app: './static/app',
+      compass: './sass-cache'
     },
 
     compass: {
@@ -74,7 +75,7 @@ module.exports = function (grunt) {
         options: {
           sassDir: 'assets/style',
           cssDir: 'static/style',
-          cacheDir: 'tmp/sass-cache',
+          cacheDir: './sass-cache',
           importPath: ['vendor/normalize-scss']
         }
       }
@@ -101,10 +102,11 @@ module.exports = function (grunt) {
 
   grunt.registerTask('test', ['jshint', 'jscs', 'karma']);
   grunt.registerTask('dev', ['default']);
+  grunt.registerTask('style', ['compass', 'clean:compass']);
 
   grunt.registerTask('default', [
-    'clean',
-    'compass',
+    'clean:app',
+    'style',
     'handlebars',
     'copy',
     'requirejs',
