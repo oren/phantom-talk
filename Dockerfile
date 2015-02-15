@@ -63,5 +63,5 @@ VOLUME ["/opt/phantom-talk"]
 WORKDIR /opt/phantom-talk
 COPY package.json /opt/phantom-talk/package.json
 RUN ["npm", "install"]
-EXPOSE 9900
+EXPOSE 8000
 ENTRYPOINT ["npm"]

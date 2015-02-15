@@ -5,6 +5,6 @@ source $dir/common
 
 docker run \
     --volume $(abspath $dir/..):/opt/phantom-talk \
-    --publish 9900:9900 \
+    --publish 8000:8000 \
     phantom-talk \
     test

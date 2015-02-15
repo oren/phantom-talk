@@ -7,6 +7,6 @@ docker run \
     --interactive \
     --tty \
     --volume $(abspath $dir/..):/opt/phantom-talk \
-    --publish=9876:9876 \
+    --publish=8000:8000 \
     --entrypoint /bin/bash \
     phantom-talk
