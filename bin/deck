@@ -61,6 +61,42 @@ function serveIfExists(path) {
   };
 }
 
+app.get('/slides', function showHandler(req, res) {
+  fs.readdir(pathToFile('data', 'slide'), function (err, files) {
+    files.sort();
+    var jsonFiles = _.filter(files, function (file) {
+      return /^\d+.json$/.test(file);
+    });
+
+    var getJsonFiles = _.map(jsonFiles, function (file) {
+      return function (cb) {
+        var serve = serveIfExists(pathToFile('data', 'slide', file));
+        serve(function (err, content) {
+          if (err) {
+            cb(err, null);
+            return;
+          }
+          try {
+            var json = JSON.parse(content);
+          } catch (err) {
+            cb(err, null);
+            return;
+          }
+          cb(null, json);
+        });
+      };
+    });
+
+    async.parallel(getJsonFiles, function (err, slideContent) {
+      if (err) {
+        renderError(res, err);
+        return;
+      }
+      res.send(slideContent);
+    });
+  });
+});
+
 app.get(/slide\/(\d+)/, function showHandler(req, res, next) {
   var slideId = req.params[0];
   var slidePath = pathToFile('data', 'slide', slideId + '.json');
