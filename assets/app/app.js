@@ -48,18 +48,18 @@ define([
       }, this);
     },
 
-    nextSlide: function nextSlide() {
-      var nextId = this.model.get('id') + 1;
+    goToSlide: function goToSlide(nextId) {
       if (this.collection.get(nextId)) {
-        this.triggerMethod('slide:change', nextId);
+        this.router.navigate('slide/' + nextId, {trigger: true});
       }
     },
 
+    nextSlide: function nextSlide() {
+      this.goToSlide(this.model.get('id') + 1);
+    },
+
     prevSlide: function prevSlide() {
-      var nextId = this.model.get('id') - 1;
-      if (this.collection.get(nextId)) {
-        this.triggerMethod('slide:change', nextId);
-      }
+      this.goToSlide(this.model.get('id') - 1);
     },
 
     onStart: function onStart() {
