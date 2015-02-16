@@ -34,7 +34,7 @@ function pathToFile() {
   );
 }
 
-app.get('/', function index(req, res) {
+function index(req, res) {
   var indexFile = pathToFile('assets', 'index.html');
 
   function compileServe(err, text) {
@@ -47,7 +47,9 @@ app.get('/', function index(req, res) {
   }
 
   fs.readFile(indexFile, {encoding: 'utf8'}, compileServe);
-});
+}
+
+app.get('/', index);
 
 function serveIfExists(path) {
   return function _serveIfExists(cb) {
@@ -98,6 +100,11 @@ app.get('/slides', function showHandler(req, res) {
 });
 
 app.get(/slide\/(\d+)/, function showHandler(req, res, next) {
+  if (!req.xhr) {
+    index(req, res);
+    return;
+  }
+
   var slideId = req.params[0];
   var slidePath = pathToFile('data', 'slide', slideId + '.json');
 

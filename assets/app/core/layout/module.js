@@ -10,7 +10,7 @@ define([
     Model: LayoutModel,
     View: LayoutView,
 
-    onStart: function(options) {
+    onStart: function onStart(options) {
       var opts = _.defaults({}, options || {}, {layout: {}});
       _.defaults(opts.layout, {view: {}, model: {}});
 
