@@ -7,15 +7,15 @@ define(['backbone', 'marionette', 'app'], function (Backbone, Marionette, App) {
     describe('→ start()', function () {
       it('→ can be called', function () {
         expect(function noError() {
-          var app = new App({Layout: Marionette.Module});
+          var app = new App();
           app.start();
         }).not.toThrow();
       });
     });
 
-    describe('→ has layout', function () {
+    describe('→ has view', function () {
       it('→ exits', function () {
-        expect(new App().layout).not.toBeUndefined();
+        expect(new App().view).not.toBeUndefined();
       });
     });
 

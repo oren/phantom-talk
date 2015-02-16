@@ -28,7 +28,6 @@
   "maxdepth": 4,
   "maxerr": 50,
   "maxlen": 80,
-  "maxparams": 5,
 
   "indent": 2,
   "globals": {
