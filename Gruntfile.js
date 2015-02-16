@@ -1,6 +1,7 @@
 var _ = require('lodash');
 var glob = require('glob');
 var requireConfig = require('./assets/app/config');
+var spawn = require('child_process').spawn;
 
 function buildRequireConfig(options) {
   'use strict';
@@ -67,7 +68,9 @@ module.exports = function (grunt) {
 
     clean: {
       app: './static/app',
-      compass: './sass-cache'
+      compass: './sass-cache',
+      karma: './karma-*',
+      tmp: './tmp-*.tmp'
     },
 
     compass: {
@@ -81,7 +84,18 @@ module.exports = function (grunt) {
       }
     },
 
-    karma: {unit: {configFile: 'config/test.js'}},
+    karma: {
+      server: {
+        configFile: 'config/test.js',
+        background: true
+
+      },
+      unit: {
+        configFile: 'config/test.js',
+        background: false,
+        singleRun: true
+      }
+    },
 
     jshint: {
       options: {jshintrc: './.jshintrc'},
@@ -96,20 +110,44 @@ module.exports = function (grunt) {
     jscs: {
       src: ['Gruntfile.js', 'test/**/*.js'],
       options: {config: '.jscsrc'}
-    }
+    },
 
+    watch: {
+      style: {
+        files: '<%= compass.dist.options.sassDir %>/**/*.scss',
+        tasks: ['compass'],
+        options: {livereload: true}
+      },
+      handlebars: {
+        files: './assets/**/*.hbs',
+        tasks: ['js'],
+        options: {livereload: true}
+      },
+      app: {
+        files: './assets/**/*.js',
+        tasks: ['js'],
+        options: {livereload: true}
+      },
+      test: {
+        files: './test/**/*.js',
+        tasks: ['test'],
+        options: {livereload: true}
+      }
+    }
   });
 
-  grunt.registerTask('test', ['jshint', 'jscs', 'karma']);
-  grunt.registerTask('dev', ['default']);
-  grunt.registerTask('style', ['compass', 'clean:compass']);
+  grunt.registerTask('run-deck', function () {
+    var deck = spawn('./bin/deck');
+    grunt.log.writeln('Running deck with pid: ' + deck.pid);
+    deck.stdout.pipe(process.stdout);
+    deck.stderr.pipe(process.stderr);
+  });
 
-  grunt.registerTask('default', [
-    'clean:app',
-    'style',
-    'handlebars',
-    'copy',
-    'requirejs',
-    'jshint'
-  ]);
+  grunt.registerTask('test', ['jshint', 'jscs', 'karma:unit', 'clean:karma']);
+  grunt.registerTask('dev', ['default']);
+  grunt.registerTask('style', ['compass', 'clean:compass', 'clean:tmp']);
+  grunt.registerTask('js', ['handlebars', 'copy', 'requirejs', 'test']);
+  grunt.registerTask('build', ['clean:app', 'style', 'js', 'watch']);
+
+  grunt.registerTask('default', ['run-deck', 'karma:server', 'build']);
 };

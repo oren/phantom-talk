@@ -9,6 +9,16 @@ var express = require('express');
 var app = express();
 var staticHandler = express['static'].bind(express);
 
+app.use((function log() {
+  var text = '{{date}} {{req.method}} {{req.url}}';
+  var logTemplate = handlebars.compile(text);
+
+  return function (req, res, next) {
+    console.log(logTemplate({date: new Date().toISOString(), req: req}));
+    next();
+  };
+}()));
+
 app.get('/', function index(req, res) {
   var indexFile = __dirname + '/../assets/index.html';
 

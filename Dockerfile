@@ -64,4 +64,6 @@ WORKDIR /opt/phantom-talk
 COPY package.json /opt/phantom-talk/package.json
 RUN ["npm", "install"]
 EXPOSE 8000
+EXPOSE 8001
+EXPOSE 35729
 ENTRYPOINT ["npm"]

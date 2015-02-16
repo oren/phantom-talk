@@ -5,6 +5,6 @@ source $dir/common
 
 docker run \
     --volume $(abspath $dir/..):/opt/phantom-talk \
-    --publish 8000:8000 \
+    $port_args \
     phantom-talk \
     run deck

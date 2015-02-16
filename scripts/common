@@ -1,3 +1,7 @@
+# vi: ft=sh
+
+export port_args='--publish 8000:8000 --publish 8001:8001 --publish 35729:35729'
+
 function abspath {
   python -c 'import sys, os; print(os.path.abspath(sys.argv[1]))' "$1"
 }

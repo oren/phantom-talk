@@ -35,7 +35,7 @@ module.exports = function(config) {
     reporters: ['progress'],
 
     // web server port
-    port: 8000,
+    port: 8001,
 
     // enable / disable colors in the output (reporters and logs)
     colors: true,
@@ -47,7 +47,7 @@ module.exports = function(config) {
 
     // enable / disable watching file and executing tests
     // whenever any file changes
-    autoWatch: false,
+    autoWatch: true,
 
     // start these browsers
     // available browser launchers:
@@ -56,6 +56,6 @@ module.exports = function(config) {
 
     // Continuous Integration mode
     // if true, Karma captures browsers, runs the tests and exits
-    singleRun: true
+    singleRun: false
   });
 };
