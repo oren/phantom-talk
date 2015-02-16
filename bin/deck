@@ -2,9 +2,12 @@
 //# vi: ft=javascript
 
 var fs = require('fs');
+var path = require('path');
 
-var handlebars = require('handlebars');
+var _ = require('lodash');
+var async = require('async');
 var express = require('express');
+var handlebars = require('handlebars');
 
 var app = express();
 var staticHandler = express['static'].bind(express);
@@ -19,12 +22,24 @@ app.use((function log() {
   };
 }()));
 
+function renderError(res, err) {
+  console.error(err);
+  res.writeHead(500, {'Content-Type': 'text/plain'});
+  res.write(err);
+}
+
+function pathToFile() {
+  return path.normalize(
+    path.join.apply(null, [__dirname, '..'].concat(_.toArray(arguments)))
+  );
+}
+
 app.get('/', function index(req, res) {
-  var indexFile = __dirname + '/../assets/index.html';
+  var indexFile = pathToFile('assets', 'index.html');
 
   function compileServe(err, text) {
     if (err) {
-      res.writeHead(500, {'Content-Type': 'text/plain'}, err);
+      renderError(res, err);
       return;
     }
     var tmpl = handlebars.compile(text);
@@ -32,6 +47,58 @@ app.get('/', function index(req, res) {
   }
 
   fs.readFile(indexFile, {encoding: 'utf8'}, compileServe);
+});
+
+function serveIfExists(path) {
+  return function _serveIfExists(cb) {
+    fs.exists(path, function (exists) {
+      if (!exists) {
+        cb(null, null);
+        return;
+      }
+      fs.readFile(path, {encoding: 'utf8'}, cb);
+    });
+  };
+}
+
+app.get(/slide\/(\d+)/, function showHandler(req, res, next) {
+  var slideId = req.params[0];
+  var slidePath = pathToFile('data', 'slide', slideId + '.json');
+
+  fs.exists(slidePath, function (exists) {
+    if (!exists) {
+      next();
+      return;
+    }
+
+    fs.readFile(slidePath, {encoding: 'utf8'}, function (err, content) {
+      if (err) {
+        renderError(res, err);
+        return;
+      }
+
+      try {
+        var slide = JSON.parse(content);
+      } catch (err) {
+        renderError(res, err);
+        return;
+      }
+
+      async.parallel({
+        copy: serveIfExists(pathToFile('data', 'copy', slide.copy + '.md')),
+        code: serveIfExists(pathToFile('data', 'code', slide.code + '.js'))
+      }, function (err, slideContent) {
+        if (err) {
+          renderError(res, err);
+          return;
+        }
+        slideContent.id = parseInt(slideId, 10);
+        slideContent.title = slide.title || '';
+        res.send(slideContent);
+      });
+    });
+
+  });
 });
 
 app.use('/data', staticHandler('data'));
