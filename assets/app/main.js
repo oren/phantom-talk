@@ -12,7 +12,7 @@ define('main', [
 
     app.on('start', function () {
       if (!Backbone.history.start({pushState: true})) {
-        app.router.navigate('slide/1');
+        app.router.navigate('slide/1', {trigger: true});
       }
     });
 

@@ -2,6 +2,7 @@ define([
   'underscore',
   'backbone',
   'marionette',
+  'core/listener',
   'core/router',
   'widgets/slide/view',
   'widgets/slide/model'
@@ -9,6 +10,7 @@ define([
   _,
   Backbone,
   Marionette,
+  Listener,
   Router,
   SlideView,
   SlideModel
@@ -16,6 +18,9 @@ define([
   'use strict';
 
   var Application = Marionette.Application;
+  var SlideCollection = Backbone.Collection.extend({
+    url: '/slides'
+  });
 
   function App(options) {
     if (options == null) {
@@ -30,6 +35,10 @@ define([
     initialize: function initialize(options) {
       options = options || {};
 
+      this.collection = new SlideCollection();
+
+      this.module('listener', Listener);
+
       this.model = new SlideModel();
       this.view = new SlideView({el: options.el, model: this.model});
 
@@ -39,8 +48,23 @@ define([
       }, this);
     },
 
+    nextSlide: function nextSlide() {
+      var nextId = this.model.get('id') + 1;
+      if (this.collection.get(nextId)) {
+        this.triggerMethod('slide:change', nextId);
+      }
+    },
+
+    prevSlide: function prevSlide() {
+      var nextId = this.model.get('id') - 1;
+      if (this.collection.get(nextId)) {
+        this.triggerMethod('slide:change', nextId);
+      }
+    },
+
     onStart: function onStart() {
       this.view.render();
+      this.collection.fetch();
     },
 
     onSlideChange: function onSlideChange(num) {
