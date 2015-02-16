@@ -20,10 +20,12 @@
         handlebars: prefix + '/vendor/handlebars/handlebars.runtime',
         jquery: prefix + '/vendor/jquery/dist/jquery',
         marionette: prefix + '/vendor/marionette/lib/backbone.marionette',
+        prism: prefix + '/vendor/prism/prism',
         underscore: prefix + '/vendor/underscore/underscore'
       },
       shim: {
         handlebars: {exports: 'Handlebars'},
+        prism: {exports: 'Prism'},
         underscore: {exports: '_'}
       }
     };
