@@ -1,4 +1,5 @@
 define([
+  'jquery',
   'underscore',
   'backbone',
   'marionette',
@@ -7,6 +8,7 @@ define([
   'widgets/slide/view',
   'widgets/slide/model'
 ], function AppDefine(
+  $,
   _,
   Backbone,
   Marionette,
@@ -68,6 +70,7 @@ define([
     },
 
     onSlideChange: function onSlideChange(num) {
+      $('body').removeClass().addClass('page-' + num);
       this.model.set('id', num);
       this.model.fetch();
     }

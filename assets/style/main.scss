@@ -1,4 +1,21 @@
 @import "_normalize";
-body {
+
+html, body {
+  height: 100%;
+}
+
+$slide-width: 1280px;
+$slide-height: 720px;
+
+.deck {
+  position: relative;
+}
+
+.slide {
+  width: $slide-width;
+  margin: 0 auto;
+}
+
+.page-2 {
   background-color: #bada55;
 }

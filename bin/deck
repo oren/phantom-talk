@@ -3,6 +3,7 @@
 
 var fs = require('fs');
 var path = require('path');
+var exec = require('child_process').exec;
 
 var _ = require('lodash');
 var async = require('async');
@@ -118,6 +119,68 @@ app.get(/slide\/(\d+)/, function showHandler(req, res, next) {
         slideContent.title = slide.title || '';
         res.send(slideContent);
       });
+    });
+
+  });
+});
+
+app.get(/results\/([^\/]+)\/(\d\d)$/, function resultsHandler(req, res, next) {
+  var app = req.params[0];
+  var slideId = req.params[1];
+
+  if (!_.contains(['node', 'phantomjs-1.9.8', 'phantomjs-2.0.0'], app)) {
+    next();
+    return;
+  }
+
+  var slidePath = pathToFile('data', 'slide', slideId + '.json');
+  fs.exists(slidePath, function (exists) {
+    if (!exists) {
+      return next();
+    }
+
+    var noSlideError = new Error('No code for slide');
+    async.waterfall([
+
+      function (cb) {
+        fs.readFile(slidePath, {encoding: 'utf8'}, cb);
+      },
+
+      function (content, cb) {
+        try {
+          var slide = JSON.parse(content);
+        } catch (err) {
+          cb(err, null);
+          return;
+        }
+        cb(null, slide);
+      },
+
+      function (slide, cb) {
+        var codePath = pathToFile('data', 'code', slide.code + '.js');
+        fs.exists(codePath, function (exists) {
+          if (exists) {
+            cb(null, codePath);
+          } else {
+            cb(noSlideError);
+          }
+        });
+      },
+
+      function (path, cb) {
+        exec(app + ' ' + path, cb);
+      }
+
+    ], function (err, stdout, stderr) {
+      if (err === noSlideError) {
+        next();
+        return;
+      }
+      if (err) {
+        renderError(res, err);
+        return;
+      }
+      res.send({stdout: stdout, stderr: stderr});
     });
 
   });

@@ -1,4 +1,11 @@
-<div class="slide-{{id}}">
+<div class="slide slide-{{id}}">
   <div class="copy"></div>
-  <pre><code class="language-javascript"></code></pre>
+  {{#code}}
+    <pre><code class="language-javascript"></code></pre>
+    <button class="request" data-env="phantomjs-1.9.8">phantomjs-1.9.8</button>
+    <button class="request" data-env="phantomjs-2.0.0">phantomjs-2.0.0</button>
+    <button class="request" data-env="node">node</button>
+    <pre><code class="stdout"></code></pre>
+    <pre><code class="stderr"></code></pre>
+  {{/code}}
 </div>
