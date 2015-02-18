@@ -62,6 +62,7 @@ ENV PHANTOMJS_BIN /usr/local/bin/phantomjs
 VOLUME ["/opt/phantom-talk"]
 WORKDIR /opt/phantom-talk
 COPY package.json /opt/phantom-talk/package.json
+COPY README.md /opt/phantom-talk/README.md
 RUN ["npm", "install"]
 EXPOSE 8000
 EXPOSE 8001
