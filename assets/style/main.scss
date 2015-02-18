@@ -1,11 +1,36 @@
 @import "_normalize";
+@import "compass";
 
-html, body {
-  height: 100%;
-}
 
 $slide-width: 1280px;
 $slide-height: 720px;
+
+$main-text: #4a2c0a;
+$base-font-size: 36px;
+$mega-font-size: 80px;
+$strong-color: #566b15;
+$background-color: #ffdfdf;
+
+html, body {
+  height: 100%;
+  @include background-image(linear-gradient(to bottom, $background-color, white));
+}
+
+h1 {
+  font-size: $mega-font-size;
+}
+
+h2 {
+  font-size: $mega-font-size / 12 * 9;
+}
+
+strong {
+  color: $strong-color;
+}
+
+li {
+  line-height: 3em;
+}
 
 .deck {
   position: relative;
@@ -13,9 +38,12 @@ $slide-height: 720px;
 
 .slide {
   width: $slide-width;
+  height: $slide-height;
   margin: 0 auto;
-}
+  color: $main-text;
+  font-size: $base-font-size;
 
-.page-2 {
-  background-color: #bada55;
+  pre, code {
+    overflow: visible;
+  }
 }

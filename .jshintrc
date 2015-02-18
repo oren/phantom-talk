@@ -41,6 +41,7 @@
     "it": true,
     "jasmine": true,
     "module": true,
+    "phantom": true,
     "process": true,
     "require": true,
     "requirejs": true,

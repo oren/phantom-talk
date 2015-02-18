@@ -23,9 +23,7 @@ define([
     ui: {
       copy: '.copy',
       code: '.language-javascript',
-      button: '.request',
-      stdout: '.stdout',
-      stderr: '.stderr'
+      button: '.request'
     },
 
     events: {
@@ -50,16 +48,18 @@ define([
     onRequestResult: function onRequestResult(event) {
       event.preventDefault();
       var env = $(event.target).data('env');
+      if (env === 'clear') {
+        this.render();
+        return;
+      }
       var results = new ResultsModel({id: this.model.get('id'), env: env});
-      var $stdout = this.ui.stdout;
-      var $stderr = this.ui.stderr;
+      var $code = this.ui.code;
       results.fetch({
         success: function () {
-          $stdout.text(results.get('stdout'));
-          $stderr.text(results.get('stderr'));
+          $code.text(results.get('stdout') + results.get('stderr'));
         },
         error: function () {
-          $stdout.text('error');
+          $code.text('error');
         }
       });
     }

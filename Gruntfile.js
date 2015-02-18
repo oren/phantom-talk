@@ -63,11 +63,19 @@ module.exports = function (grunt) {
         dest: '<%= clean.app %>',
         cwd: './assets/app',
         expand: true
+      },
+
+      img: {
+        src: '**/*.png',
+        dest: '<%= clean.img %>',
+        cwd: './assets/images',
+        expand: true
       }
     },
 
     clean: {
       app: './static/app',
+      img: './static/images',
       compass: './sass-cache',
       karma: './karma-*',
       tmp: './tmp-*.tmp'

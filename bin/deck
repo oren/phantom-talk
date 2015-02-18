@@ -24,9 +24,9 @@ app.use((function log() {
 }()));
 
 function renderError(res, err) {
-  console.error(err);
+  console.error(err.toString());
   res.writeHead(500, {'Content-Type': 'text/plain'});
-  res.write(err);
+  res.send(err.toString());
 }
 
 function pathToFile() {
@@ -127,8 +127,11 @@ app.get(/slide\/(\d+)/, function showHandler(req, res, next) {
 app.get(/results\/([^\/]+)\/(\d\d)$/, function resultsHandler(req, res, next) {
   var app = req.params[0];
   var slideId = req.params[1];
+  var validApps = [
+    'node', 'phantomjs-1.9.8', 'phantomjs-2.0.0'
+  ];
 
-  if (!_.contains(['node', 'phantomjs-1.9.8', 'phantomjs-2.0.0'], app)) {
+  if (!_.contains(validApps, app)) {
     next();
     return;
   }
@@ -177,7 +180,7 @@ app.get(/results\/([^\/]+)\/(\d\d)$/, function resultsHandler(req, res, next) {
         return;
       }
       if (err) {
-        renderError(res, err);
+        res.send({stdout: '', stderr: err.toString()});
         return;
       }
       res.send({stdout: stdout, stderr: stderr});
