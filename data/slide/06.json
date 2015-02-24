@@ -1,4 +1,3 @@
 {
-  "copy": "js-runtime",
-  "code": "prototypes"
+  "copy": "qt"
 }

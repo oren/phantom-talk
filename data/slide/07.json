@@ -1,0 +1,4 @@
+{
+  "copy": "use-after-free",
+  "code": "use-after-free"
+}
